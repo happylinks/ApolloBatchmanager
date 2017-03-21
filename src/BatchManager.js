@@ -49,7 +49,7 @@ class BatchManager {
                 return;
             }
         });
-	}
+    }
 
     add(batch) {
         this.batches.push(batch);
