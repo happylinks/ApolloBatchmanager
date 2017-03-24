@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 // import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import BatchManager from './BatchManager';
 import Batch from './Batch';
 import BatchQuery from './BatchQuery';
 
