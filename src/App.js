@@ -15,26 +15,37 @@ const deleteAssetQuery = gql`
     mutation deleteAssetQuery(
         $input: DeleteAssetInput!
     ) {
-        deleteAsset(input: $input) {
+        deleteAsset(input: $input, async: true) {
             clientMutationId
+        }
+    }
+`;
+const deleteAssetSubscription = gql`
+    subscription deleteAsset(
+        $clientMutationId: ClientMutationID!
+    ) {
+        deleteAsset(clientMutationId: $clientMutationId) {
             asset {
-              async
+                id
+                name
+                extension
             }
         }
     }
 `;
-
 const batchQuery = new BatchQuery({
     query: deleteAssetQuery,
+    subscription: deleteAssetSubscription,
     variables: {
-        id:  "cj0fj68p8dp4a013283j10vpl",
+        id:  "cj0fkn1hk03qx0166shxzybos",
     },
 });
 
 const batchQuery2 = new BatchQuery({
     query: deleteAssetQuery,
+    subscription: deleteAssetSubscription,
     variables: {
-        id: "cj0fj7mwfdpi10132zbva4mv3",
+        id: "cj0fkn2lq0drr0119bhdsq5gc",
     },
 });
 
@@ -43,11 +54,9 @@ const batch = new Batch({
     name: 'deleteAssets',
 });
 
-batchManager.add(batch);
-
-batchManager.startAll();
-
-console.log(batchManager);
+batch.start().then(() => {
+    console.log('BATCH IS DONE!', batch);
+});
 
 class App extends Component {
   render() {
